@@ -4,8 +4,6 @@ import logoImg from "./assets/logo.png";
 const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
-  width: 800,
-  height: 600,
   scene: {
     preload: preload,
     create: create
@@ -29,4 +27,21 @@ function create() {
     yoyo: true,
     loop: -1
   });
+}
+
+let button = document.getElementById('thebutton');
+button.addEventListener("click", function() {
+  postMessage({'click': true})
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+});
+
+function postMessage(msg = {}) {
+  console.log(msg);
+  return fetch('127.0.0.1:8000', {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: msg,
+  });
+  // .then(response => response.json());
 }
